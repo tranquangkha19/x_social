@@ -7,6 +7,10 @@ defmodule XSocial.Timeline.Post do
     field :username, :string, default: "tranquangkha"
     field :likes_count, :integer, default: 0
     field :reposts_count, :integer, default: 0
+    field :parent_post_id, :integer
+    field :original_post_id, :integer
+
+    belongs_to :user, XSocial.Auth.User
 
     timestamps(type: :utc_datetime)
   end
