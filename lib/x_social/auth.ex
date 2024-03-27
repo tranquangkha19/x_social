@@ -20,6 +20,20 @@ defmodule XSocial.Auth do
     |> Repo.insert()
   end
 
+  def authenticate_user(email, password) do
+    user = Repo.get_by(User, email: email)
+
+    cond do
+      user && check_password(user, password) -> {:ok, user}
+      true -> {:error, :invalid_credentials}
+    end
+  end
+
+  defp check_password(user, password) do
+    password == user.password
+    # Pbkdf2.verify_pass(password, user.password_hash)
+  end
+
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)

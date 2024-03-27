@@ -2,6 +2,7 @@ defmodule XSocial.Timeline.Post do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @schema_prefix :timeline
   schema "posts" do
     field :body, :string
     field :username, :string, default: "tranquangkha"

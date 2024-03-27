@@ -26,5 +26,6 @@ defmodule XSocial.Auth.User do
     |> cast(attrs, __MODULE__.__schema__(:fields) -- @default_fields)
     |> validate_required(@required_fields)
     |> unique_constraint([:email, :username])
+    |> validate_length(:password, min: 6)
   end
 end

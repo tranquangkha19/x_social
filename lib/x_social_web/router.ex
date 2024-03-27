@@ -15,16 +15,23 @@ defmodule XSocialWeb.Router do
   end
 
   scope "/", XSocialWeb do
-    pipe_through :browser
+    pipe_through [:browser]
 
-    get "/", PageController, :home
+    live "/login", SessionLive.Login, :show
+    live "/signup", UserLive.SignUp, :show
+    get "/auth", AuthController, :auth
+    get "/logout", AuthController, :logout
 
-    live "/posts", PostLive.Index, :index
-    live "/posts/new", PostLive.Index, :new
-    live "/posts/:id/edit", PostLive.Index, :edit
+    live_session :ensure_authorized, on_mount: [{XSocialWeb.UserAuthLive, :ensure_authorized}] do
+      get "/", PageController, :home
 
-    live "/posts/:id", PostLive.Show, :show
-    live "/posts/:id/show/edit", PostLive.Show, :edit
+      live "/posts", PostLive.Index, :index
+      live "/posts/new", PostLive.Index, :new
+      live "/posts/:id/edit", PostLive.Index, :edit
+
+      live "/posts/:id", PostLive.Show, :show
+      live "/posts/:id/show/edit", PostLive.Show, :edit
+    end
   end
 
   # Other scopes may use custom stacks.
