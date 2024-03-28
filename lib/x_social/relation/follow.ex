@@ -3,7 +3,7 @@ defmodule XSocial.Relation.Follow do
   import Ecto.Changeset
 
   @schema_prefix :relation
-  schema "posts" do
+  schema "follows" do
     belongs_to :user, XSocial.Auth.User
     # the user that being followed
     belongs_to :followee, XSocial.Auth.User

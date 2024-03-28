@@ -2,6 +2,7 @@ defmodule XSocialWeb.ProfileLive.Index do
   use XSocialWeb, :live_view
   # Assuming you have an Auth context
   alias XSocial.Auth
+  alias XSocial.Relation
 
   @impl true
   def mount(%{"username" => username}, _session, socket) do
@@ -10,7 +11,14 @@ defmodule XSocialWeb.ProfileLive.Index do
         {:halt, Phoenix.LiveView.redirect(socket, to: "/posts")}
 
       user ->
-        socket = assign(socket, :user, user)
+        {followers_count, following_count} = Relation.count_followers_and_followees(user.id)
+
+        socket =
+          socket
+          |> assign(:user, user)
+          |> assign(followers_count: followers_count)
+          |> assign(following_count: following_count)
+
         {:ok, socket}
     end
   end
