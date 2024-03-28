@@ -8,6 +8,8 @@ defmodule XSocial.Auth.User do
     field :password, :string
     field :email, :string
     field :name, :string
+    field :profile_picture_url, :string
+    field :cover_picture_url, :string
 
     timestamps()
   end
