@@ -7,6 +7,7 @@ defmodule XSocial.Relation do
   alias XSocial.Repo
 
   alias XSocial.Relation.Follow
+  alias XSocial.Auth.User
 
   # get all followees of a user
   # the use follow them (followees)
@@ -39,22 +40,25 @@ defmodule XSocial.Relation do
     )
   end
 
-  def get_all_followees(user_id) do
-    Repo.all(
-      from follow in Follow,
-        where: follow.user_id == ^user_id,
-        select: follow,
-        order_by: [desc: follow.inserted_at]
-    )
-  end
-
-  # get all followers of a user
   def get_all_followers(user_id) do
     Repo.all(
       from follow in Follow,
+        join: follower in User,
+        on: follower.id == follow.followee_id,
         where: follow.followee_id == ^user_id,
-        select: follow,
-        order_by: [desc: follow.inserted_at]
+        order_by: [desc: follow.inserted_at],
+        select: follower
+    )
+  end
+
+  def get_all_following(user_id) do
+    Repo.all(
+      from follow in Follow,
+        join: followee in User,
+        on: followee.id == follow.followee_id,
+        where: follow.user_id == ^user_id,
+        order_by: [desc: follow.inserted_at],
+        select: followee
     )
   end
 end

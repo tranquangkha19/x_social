@@ -33,6 +33,8 @@ defmodule XSocialWeb.Router do
       live "/posts/:id/show/edit", PostLive.Show, :edit
 
       live "/:username", ProfileLive.Index, :index
+      live "/:username/following", ProfileLive.Index, :following
+      live "/:username/followers", ProfileLive.Index, :followers
     end
   end
 

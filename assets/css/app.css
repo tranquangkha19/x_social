@@ -6,3 +6,107 @@
 .error-message {
     color: red; /* Example error styling */
 }
+
+.followee {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 10px;
+border-bottom: 1px solid #ccc;
+}
+
+.followee-info {
+display: flex;
+align-items: center;
+}
+
+.followee-picture {
+width: 50px;
+height: 50px;
+border-radius: 25px;
+margin-right: 10px;
+}
+
+.followee-name {
+font-weight: bold;
+}
+
+.followee-username {
+color: #555;
+}
+
+.followee-bio {
+font-size: 0.8em;
+}
+
+.follow-button {
+padding: 5px 15px;
+background-color: blue;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+.follow-button:hover {
+background-color: darkblue;
+}
+
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #e6ecf0;
+  }
+  
+  .profile-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-picture {
+    width: 48px; /* adjust as needed */
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .profile-name {
+    font-weight: bold;
+  }
+  
+  .profile-username {
+    color: #657786;
+  }
+  
+  .profile-navigation ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  
+  .profile-navigation li {
+    padding: 8px 16px;
+  }
+  
+  .profile-navigation li.active {
+    border-bottom: 2px solid #1da1f2;
+  }
+  
+  .profile-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border-bottom: 1px solid #e6ecf0;
+    /* Additional styles as needed */
+  }
+  /* Add additional styles for the navigation links, such as hover effects */
+  

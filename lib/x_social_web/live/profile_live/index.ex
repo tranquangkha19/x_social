@@ -31,4 +31,14 @@ defmodule XSocialWeb.ProfileLive.Index do
   defp apply_action(socket, :index, _params) do
     socket
   end
+
+  defp apply_action(socket, :following, _params) do
+    following = Relation.get_all_following(socket.assigns.user.id)
+    assign(socket, :following, following)
+  end
+
+  defp apply_action(socket, :followers, _params) do
+    followers = Relation.get_all_followers(socket.assigns.user.id)
+    assign(socket, :followers, followers)
+  end
 end

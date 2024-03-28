@@ -1,15 +1,35 @@
 
+<%= if @live_action == :index do %>
+    <.live_component 
+    module={XSocialWeb.UserProfileComponent} 
+    id={@user.id}
+    name={@user.name}
+    username={@user.username}
+    bio={@user.username}
+    cover_picture={@user.cover_picture_url}
+    profile_picture={@user.profile_picture_url}
+    following_count={@following_count}
+    followers_count={@followers_count}
+    website={@user.username}
+    />
+<% end %>
 
-<.live_component 
-  module={XSocialWeb.UserProfileComponent} 
-  id={@user.id}
-  name={@user.name}
-  username={@user.username}
-  bio={@user.username}
-  cover_picture={@user.cover_picture_url}
-  profile_picture={@user.profile_picture_url}
-  following_count={@following_count}
-  followers_count={@followers_count}
-  website={@user.username}
-/>
+<%= if @live_action == :following do %>
+    <.live_component 
+    module={XSocialWeb.FollowingComponent} 
+    id={@user.id}
+    user={@user}
+    following={@following}
+    active_tab={:following}
+    />
+<% end %>
 
+<%= if @live_action == :followers do %>
+    <.live_component 
+    module={XSocialWeb.FollowingComponent} 
+    id={@user.id}
+    user={@user}
+    following={@followers}
+    active_tab={:followers}
+    />
+<% end %>
