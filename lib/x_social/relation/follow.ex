@@ -8,6 +8,7 @@ defmodule XSocial.Relation.Follow do
     # the user that being followed
     belongs_to :followee, XSocial.Auth.User
     field :followed_at, :naive_datetime
+    field :active, :boolean
 
     timestamps()
   end
