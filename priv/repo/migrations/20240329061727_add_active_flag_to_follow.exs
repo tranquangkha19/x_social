@@ -3,7 +3,7 @@ defmodule XSocial.Repo.Migrations.AddActiveFlagToFollow do
 
   def change do
     alter table(:follows, prefix: :relation) do
-      add :active, :boolean
+      add :active, :boolean, default: true
     end
   end
 end
