@@ -44,7 +44,7 @@ defmodule XSocial.Relation do
     Repo.all(
       from follow in Follow,
         join: follower in User,
-        on: follower.id == follow.followee_id,
+        on: follower.id == follow.user_id,
         where: follow.followee_id == ^user_id,
         order_by: [desc: follow.inserted_at],
         select: follower
