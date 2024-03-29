@@ -50,13 +50,35 @@ defmodule XSocialWeb.ProfileLive.Index do
     socket
   end
 
+  def handle_event("follow", %{"followee-id" => followee_id}, socket) do
+    Relation.add_follow(socket.assigns.current_user.id, followee_id)
+    {:noreply, assign_current_user_info(socket)}
+  end
+
+  def handle_event("unfollow", %{"followee-id" => followee_id}, socket) do
+    Relation.unfollow(socket.assigns.current_user.id, followee_id)
+    {:noreply, assign_current_user_info(socket)}
+  end
+
   defp apply_action(socket, :following, _params) do
     following = Relation.get_all_following(socket.assigns.user.id)
-    assign(socket, :following, following)
+
+    socket
+    |> assign_current_user_info()
+    |> assign(:following, following)
   end
 
   defp apply_action(socket, :followers, _params) do
     followers = Relation.get_all_followers(socket.assigns.user.id)
-    assign(socket, :followers, followers)
+
+    socket
+    |> assign_current_user_info()
+    |> assign(:followers, followers)
+  end
+
+  defp assign_current_user_info(socket) do
+    socket
+    |> assign(:current_user, socket.assigns.current_user)
+    |> assign(:current_user_follow_map, socket.assigns.current_user_following_map)
   end
 end

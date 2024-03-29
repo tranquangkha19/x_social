@@ -40,9 +40,12 @@ defmodule XSocialWeb.FollowingComponent do
                 <p class="followee-bio"><%= followee.username %></p>
               </div>
             </div>
-            <button class="follow-button" phx-click="toggle_follow" phx-value-id={followee.id}>
-              Follow
-            </button>
+            <.live_component
+              module={XSocialWeb.FollowButtonComponent}
+              id={followee.id}
+              followee_id={followee.id}
+              current_user_following_map={@current_user_following_map}
+            />
           </div>
         <% end %>
       </div>

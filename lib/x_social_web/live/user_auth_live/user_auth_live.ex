@@ -12,7 +12,7 @@ defmodule XSocialWeb.UserAuthLive do
       socket =
         socket
         |> assign(:current_user, user)
-        |> assign(:current_user_follow_map, following_map)
+        |> assign(:current_user_following_map, following_map)
 
       {:cont, socket}
     else
