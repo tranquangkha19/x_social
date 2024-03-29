@@ -7,7 +7,7 @@ defmodule XSocialWeb.PostLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: Timeline.subcribe()
-    {:ok, assign(socket, :posts, Timeline.list_posts())}
+    {:ok, assign(socket, :posts, Timeline.list_related_posts(socket.assigns.current_user.id))}
   end
 
   @impl true
