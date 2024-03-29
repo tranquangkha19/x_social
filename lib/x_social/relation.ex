@@ -61,4 +61,12 @@ defmodule XSocial.Relation do
         select: followee
     )
   end
+
+  def get_all_following_ids(user_id) do
+    Repo.all(
+      from follow in Follow,
+        where: follow.user_id == ^user_id,
+        select: follow.followee_id
+    )
+  end
 end

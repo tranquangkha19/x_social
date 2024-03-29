@@ -28,6 +28,24 @@ defmodule XSocialWeb.ProfileLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
+  @impl true
+  def handle_event("show_verified_followers", _params, socket) do
+    # Logic to handle showing verified followers
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("show_followers", _params, socket) do
+    # Logic to handle showing followers
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("show_following", _params, socket) do
+    # Logic to handle showing following
+    {:noreply, socket}
+  end
+
   defp apply_action(socket, :index, _params) do
     socket
   end

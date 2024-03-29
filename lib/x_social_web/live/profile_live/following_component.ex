@@ -50,21 +50,6 @@ defmodule XSocialWeb.FollowingComponent do
     """
   end
 
-  def handle_event("show_verified_followers", _params, socket) do
-    # Logic to handle showing verified followers
-    {:noreply, socket}
-  end
-
-  def handle_event("show_followers", _params, socket) do
-    # Logic to handle showing followers
-    {:noreply, socket}
-  end
-
-  def handle_event("show_following", _params, socket) do
-    # Logic to handle showing following
-    {:noreply, socket}
-  end
-
   defp active_class(current_tab, tab_name) do
     if current_tab == tab_name, do: "active", else: ""
   end
