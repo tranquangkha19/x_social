@@ -2,6 +2,155 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.app-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    }
+
+  .header-bar {
+    position: -webkit-sticky; 
+    z-index: 1000; 
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .content-container {
+    display: flex;
+    height: calc(100vh - var(--header-height));
+    overflow: hidden;
+  }
+  
+  aside {
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    flex: 0 0 250px; /* Adjust width as necessary */
+    /* Add your styling */
+  }
+  
+  #posts {
+    flex-grow: 1;
+    overflow-y: auto;
+    /* Add your styling */
+  }
+
+  .top-50px {
+    position: relative;
+    top: 50px;
+  }
+  
+  /* Add CSS variables in :root for responsiveness and theming */
+  :root {
+    --header-height: 60px; /* Replace with your header's actual height */
+  }
+  
+  /* Include media queries for responsiveness */
+  @media (max-width: 768px) {
+    .content-container {
+      flex-direction: column;
+    }
+    
+    aside, #posts {
+      height: auto;
+      flex: none;
+    }
+  }
+
+  /* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  
+  body {
+    font-family: 'Arial', sans-serif;
+  }
+  
+
+  
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .search-bar input[type="text"] {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+  }
+  
+  .nav-items .nav-item {
+    text-decoration: none;
+    margin-left: 20px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  /* Sidebar styling */
+  .sidebar {
+    background-color: #f4f4f4;
+    width: 250px;
+    height: 100vh;
+    position: sticky;
+    top: 60px; /* Adjust based on actual header height */
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .profile-picture {
+    background-color: #000;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .profile-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .sidebar-menu {
+    list-style-type: none;
+  }
+  
+  .sidebar-menu li a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+  }
+  
+  .sidebar-menu li a:hover {
+    background-color: #ddd;
+  }
+  
+
+
 /* This file is for your main application CSS */
 .error-message {
     color: red; /* Example error styling */
