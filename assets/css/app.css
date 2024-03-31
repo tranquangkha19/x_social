@@ -70,8 +70,6 @@
     font-family: 'Arial', sans-serif;
   }
   
-
-  
   .nav-bar {
     display: flex;
     align-items: center;
@@ -103,9 +101,8 @@
   .sidebar {
     background-color: #f4f4f4;
     width: 250px;
-    height: 100vh;
     position: sticky;
-    top: 60px; /* Adjust based on actual header height */
+    top: 50px;
   }
   
   .user-profile {
@@ -249,7 +246,7 @@ border-bottom: 2px solid #1da1f2;
 
 .profile-header {
 position: sticky;
-top: 0;
+top: 50px;
 z-index: 10;
 background-color: white;
 display: flex;
