@@ -10,7 +10,7 @@ defmodule XSocialWeb.PostLive.PostComponent do
         <img src="https://via.placeholder.com/50" alt={@post.username} class="rounded-full" />
         <div class="ml-2">
           <p class="font-bold">@<%= @post.username %></p>
-          <p class="text-gray-500"><%= "00:00:00" %></p>
+          <p class="text-gray-500"><%= @post.inserted_at %></p>
         </div>
       </header>
       <!-- Post Content -->
