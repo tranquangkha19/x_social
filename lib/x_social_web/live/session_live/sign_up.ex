@@ -1,4 +1,4 @@
-defmodule XSocialWeb.UserLive.SignUp do
+defmodule XSocialWeb.SessionLive.SignUp do
   use XSocialWeb, :live_view
 
   def render(assigns) do

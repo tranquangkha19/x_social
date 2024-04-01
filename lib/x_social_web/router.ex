@@ -18,7 +18,7 @@ defmodule XSocialWeb.Router do
     pipe_through [:browser]
 
     live "/login", SessionLive.Login, :show
-    live "/signup", UserLive.SignUp, :show
+    live "/signup", SessionLive.SignUp, :show
     get "/auth", AuthController, :auth
     get "/logout", AuthController, :logout
 
