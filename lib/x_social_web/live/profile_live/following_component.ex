@@ -35,9 +35,8 @@ defmodule XSocialWeb.FollowingComponent do
             <div class="followee-info">
               <img class="followee-picture" src={followee.profile_picture_url} alt={followee.name} />
               <div>
-                <strong class="followee-name"><%= followee.name %></strong>
+                <p class="followee-name"><%= followee.name %></p>
                 <p class="followee-username"><%= followee.username %></p>
-                <p class="followee-bio"><%= followee.username %></p>
               </div>
             </div>
             <.live_component
