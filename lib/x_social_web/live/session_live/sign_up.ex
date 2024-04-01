@@ -87,17 +87,12 @@ defmodule XSocialWeb.SessionLive.SignUp do
   end
 
   def handle_event("register", %{"email" => email, "password" => password}, socket) do
-    IO.inspect("hahahahah")
-
     case XSocial.Auth.create_user(%{email: email, username: email, password: password}) do
       {:ok, _user} ->
-        IO.inspect("successsssss")
-
         {:noreply,
          socket |> put_flash(:info, "Registered successfully!") |> redirect(to: "/login")}
 
       {:error, changeset} ->
-        IO.inspect("failllllllllllll")
         {:noreply, assign(socket, changeset: changeset)}
     end
   end

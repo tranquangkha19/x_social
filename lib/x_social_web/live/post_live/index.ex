@@ -46,11 +46,11 @@ defmodule XSocialWeb.PostLive.Index do
   def handle_info({:post_updated, post}, socket) do
     {:noreply,
      update(socket, :posts, fn posts ->
-       Enum.map(posts, fn p ->
+       Enum.map(posts, fn %{post: p} = item ->
          if p.id == post.id do
-           post
+           Map.put(item, :post, post)
          else
-           p
+           item
          end
        end)
      end)}

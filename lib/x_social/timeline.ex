@@ -8,15 +8,22 @@ defmodule XSocial.Timeline do
 
   alias XSocial.Timeline.Post
   alias XSocial.Relation.Follow
+  alias XSocial.Auth.User
 
   def list_related_posts(user_id, page_number \\ 1, page_size \\ 10) do
     Repo.all(
       from p in Post,
         join: f in Follow,
         on: f.followee_id == p.user_id and f.user_id == ^user_id and f.active == true,
+        join: user in User,
+        on: user.id == p.user_id,
         order_by: [desc: p.inserted_at],
         limit: ^page_size,
-        offset: (^page_number - 1) * ^page_size
+        offset: (^page_number - 1) * ^page_size,
+        select: %{
+          post: p,
+          user: user
+        }
     )
   end
 

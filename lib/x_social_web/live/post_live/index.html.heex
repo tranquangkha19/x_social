@@ -18,12 +18,14 @@
   />
 </.modal>
 
+
 <div class="post-container">
   <%= for post <- @posts do %>
     <.live_component
       module={XSocialWeb.PostLive.PostComponent}
-      id={post.id || :new}
-      post={post}
+      id={post.post.id || :new}
+      post={post.post}
+      owner={post.user}
     />
   <% end %>
 </div>
