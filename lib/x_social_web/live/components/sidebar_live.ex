@@ -18,22 +18,25 @@ defmodule XSocialWeb.SidebarLive do
   def render(%{current_user: current_user} = assigns) do
     ~H"""
     <aside class="sidebar">
-      <div class="followee-info user-profile">
-        <img
-          class="followee-picture"
-          src={@current_user.profile_picture_url}
-          alt={@current_user.name}
-        />
-        <div>
-          <strong class="followee-name"><%= @current_user.name %></strong>
-          <p class="followee-username"><%= @current_user.username %></p>
-        </div>
+      <div class="followee-info user-profile shadow-md">
+        <a href={"/#{@current_user.username}"}>
+          <img
+            class="followee-picture"
+            src={@current_user.profile_picture_url}
+            alt={@current_user.name}
+          />
+          <div>
+            <strong class="followee-name"><%= @current_user.name %></strong>
+            <p class="followee-username"><%= @current_user.username %></p>
+          </div>
+        </a>
       </div>
       <ul class="sidebar-menu">
-        <li><a href="#">Link 1</a></li>
-        <li><a href="#">Link 2</a></li>
-        <li><a href="#">Link 3</a></li>
-        <li><a href="#">Link 4</a></li>
+        <li><a href="/posts">Home</a></li>
+        <li><a href="/notifications">Notifications</a></li>
+        <li><a href="/messages">Messages</a></li>
+        <li><a href={"/#{@current_user.username}"}>Profile</a></li>
+        <li><a href="/posts/new">Post</a></li>
       </ul>
     </aside>
     """

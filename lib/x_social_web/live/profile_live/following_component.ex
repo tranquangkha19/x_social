@@ -5,7 +5,7 @@ defmodule XSocialWeb.FollowingComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <header class="profile-header">
+      <header class="profile-header shadow">
         <div class="profile-info">
           <img class="profile-picture" src={@user.profile_picture_url} alt={@user.name} />
           <div>
@@ -31,7 +31,7 @@ defmodule XSocialWeb.FollowingComponent do
       </header>
       <div class="following-list">
         <%= for followee <- @following do %>
-          <div class="followee" id="followee-#{followee.id}">
+          <div class="followee shadow" id="followee-#{followee.id}">
             <div class="followee-info">
               <img class="followee-picture" src={followee.profile_picture_url} alt={followee.name} />
               <div>

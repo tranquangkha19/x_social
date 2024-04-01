@@ -4,7 +4,7 @@ defmodule XSocialWeb.PostLive.PostComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <article class="post border-b border-gray-300">
+    <article class="post border-gray-300 shadow-md">
       <!-- Post Header with avatar and username -->
       <header class="post-header p-4 flex items-center">
         <img src="https://via.placeholder.com/50" alt={@post.username} class="rounded-full" />
