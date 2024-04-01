@@ -12,9 +12,9 @@
       <.flash_group flash={@flash} />
       <%= @inner_content %>
     </div>
-
+  
     <!-- Sidebar Right (if you have one, use another live_render for it) -->
-    <%= live_render(@socket, XSocialWeb.SidebarLive, id: "right-sidebar-live") %>
+    <%= live_render(@socket, XSocialWeb.RightSidebar, id: "right-sidebar-live") %> 
   </div>
 </main>
 
