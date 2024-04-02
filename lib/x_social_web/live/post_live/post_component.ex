@@ -39,6 +39,24 @@ defmodule XSocialWeb.PostLive.PostComponent do
       </a>
       <!-- Post Actions -->
       <div class="actions-bar p-4 flex justify-between items-center text-gray-500">
+        <!-- Like action -->
+        <button phx-click="like" phx-target={@myself} class="flex items-center space-x-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#A1A1AA"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+            </path>
+          </svg>
+          <span><%= @post.likes_count %></span>
+        </button>
         <!-- Comment action -->
         <button phx-click="comment" phx-target={@myself} class="flex items-center space-x-1">
           <svg
@@ -58,24 +76,6 @@ defmodule XSocialWeb.PostLive.PostComponent do
           <span><%= "200" %></span>
         </button>
         <!-- Repost action -->
-        <button phx-click="like" phx-target={@myself} class="flex items-center space-x-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#A1A1AA"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-            </path>
-          </svg>
-          <span><%= @post.likes_count %></span>
-        </button>
-        <!-- Like action -->
         <button phx-click="repost" phx-target={@myself} class="flex items-center space-x-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
