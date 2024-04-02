@@ -11,6 +11,7 @@ defmodule XSocial.Timeline.Post do
     field :reposts_count, :integer, default: 0
     field :parent_post_id, :integer
     field :original_post_id, :integer
+    field :type, :string
 
     belongs_to :user, XSocial.Auth.User
 
@@ -30,4 +31,11 @@ defmodule XSocial.Timeline.Post do
     |> validate_required([:body])
     |> validate_length(:body, min: 2, max: 250)
   end
+end
+
+defmodule XSocial.Timeline.PostType do
+  def post, do: "post"
+  def repost, do: "repost"
+  def comment, do: "comment"
+  def enum, do: ["post", "repost", "comment"]
 end
