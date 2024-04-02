@@ -7,6 +7,7 @@ defmodule XSocial.Timeline do
   alias XSocial.Repo
 
   alias XSocial.Timeline.Post
+  alias XSocial.Timeline.PostType
   alias XSocial.Relation.Follow
   alias XSocial.Auth.User
 
@@ -14,25 +15,35 @@ defmodule XSocial.Timeline do
     posts =
       Repo.all(
         from p in Post,
+          where: p.type == ^PostType.post(),
           join: f in Follow,
-          on: f.followee_id == p.user_id and f.user_id == ^user_id and f.active == true,
+          on:
+            f.followee_id == p.user_id and f.user_id == ^user_id and f.active == true and
+              p.type == ^PostType.post(),
           order_by: [desc: p.inserted_at],
           limit: ^page_size,
           offset: (^page_number - 1) * ^page_size,
           select: p
       )
 
-    owner_ids = Enum.map(posts, fn post -> post.user_id end)
+    user_posts = get_lastest_posts(user_id)
 
-    owners_map =
-      Repo.all(
-        from owner in User,
-          where: owner.id in ^owner_ids,
-          select: owner
-      )
-      |> Enum.into(%{}, fn owner -> {owner.id, owner} end)
+    posts = (posts ++ user_posts) |> Enum.sort_by(& &1.id, :desc)
+
+    owners_map = get_users_by_posts(posts)
 
     %{posts: posts, owners_map: owners_map}
+  end
+
+  def get_lastest_posts(user_id, page_number \\ 1, page_size \\ 5) do
+    Repo.all(
+      from post in Post,
+        where: post.user_id == ^user_id and post.type == ^PostType.post(),
+        order_by: [desc: post.inserted_at],
+        limit: ^page_size,
+        offset: (^page_number - 1) * ^page_size,
+        select: post
+    )
   end
 
   # XSocial.Timeline.get_related_posts(1)
@@ -65,6 +76,39 @@ defmodule XSocial.Timeline do
   """
   def get_post!(id), do: Repo.get!(Post, id)
 
+  def get_details_post(post_id) do
+    post = Repo.get!(Post, post_id)
+
+    parent_post =
+      if post.parent_post_id do
+        Repo.get!(Post, post.parent_post_id)
+      else
+        nil
+      end
+
+    replies =
+      Repo.all(
+        from p in Post, where: p.parent_post_id == ^post_id, order_by: [asc: p.inserted_at]
+      ) || []
+
+    posts =
+      if parent_post do
+        [parent_post | [post | replies]]
+      else
+        [post | replies]
+      end
+
+    owners_map = get_users_by_posts(posts)
+
+    %{
+      post: post,
+      user: owners_map[post.user_id],
+      parent_post: parent_post,
+      replies: replies,
+      owners_map: owners_map
+    }
+  end
+
   @doc """
   Creates a post.
 
@@ -78,8 +122,6 @@ defmodule XSocial.Timeline do
 
   """
   def create_post(attrs \\ %{}) do
-    IO.inspect(attrs, label: "***************************************")
-
     %Post{}
     |> Post.changeset(attrs)
     |> Repo.insert()
@@ -159,5 +201,16 @@ defmodule XSocial.Timeline do
   defp broadcast({:ok, post}, event) do
     Phoenix.PubSub.broadcast(XSocial.PubSub, "posts", {event, post})
     {:ok, post}
+  end
+
+  defp get_users_by_posts(posts) do
+    owner_ids = Enum.map(posts, fn post -> post.user_id end)
+
+    Repo.all(
+      from owner in User,
+        where: owner.id in ^owner_ids,
+        select: owner
+    )
+    |> Enum.into(%{}, fn owner -> {owner.id, owner} end)
   end
 end

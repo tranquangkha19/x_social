@@ -18,11 +18,16 @@ defmodule XSocialWeb.PostLive.PostComponent do
         <div class="ml-2">
           <p>
             <a href={"/#{@owner.username}"}>
-              <span class="font-bold"><%= @owner.name %></span>
+              <span class="font-bold">@<%= @owner.username %></span>
             </a>
-            <a href={"/#{@owner.username}"}>
-              <span class="text-gray-500">@<%= @owner.username %></span>
-            </a>
+
+            <%= if @is_main == true && @post.parent_post_id && @parent_post  do %>
+              <a href={"/posts/#{@post.parent_post_id}"}>
+                <span class="text-gray-500">
+                  replying to @<%= @parent_post.username %>
+                </span>
+              </a>
+            <% end %>
           </p>
           <a href={"/posts/#{@post.id}"}>
             <p class="text-gray-500 text-sm">

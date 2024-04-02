@@ -27,6 +27,8 @@
       id={post.id || :new}
       post={post}
       owner={@owners_map[post.user_id]}
+      parent_post={nil}
+      is_main={false}
     />
   <% end %>
 </div>

@@ -14,6 +14,14 @@ defmodule XSocial.Auth do
 
   def get_user_by(params), do: Repo.get_by(User, params)
 
+  def get_users_by_ids(user_ids) do
+    Repo.all(
+      from user in User,
+        where: user.id in ^user_ids,
+        select: user
+    )
+  end
+
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)

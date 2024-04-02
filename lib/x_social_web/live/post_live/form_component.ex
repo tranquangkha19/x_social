@@ -48,7 +48,8 @@ defmodule XSocialWeb.PostLive.FormComponent do
   end
 
   def handle_event("save", %{"post" => post_params}, socket) do
-    post_params = Map.put(post_params, "user_id", socket.assigns.current_user.id)
+    post_params =
+      Map.merge(post_params, %{"user_id" => socket.assigns.current_user.id, "type" => "post"})
 
     save_post(socket, socket.assigns.action, post_params)
   end

@@ -36,6 +36,6 @@ end
 defmodule XSocial.Timeline.PostType do
   def post, do: "post"
   def repost, do: "repost"
-  def comment, do: "comment"
-  def enum, do: ["post", "repost", "comment"]
+  def reply, do: "reply"
+  def enum, do: ["post", "repost", "reply"]
 end
