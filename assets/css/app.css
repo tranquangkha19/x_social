@@ -12,7 +12,7 @@
     position: -webkit-sticky; 
     z-index: 1000; 
     background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
   }
   
   .content-container {
@@ -36,9 +36,9 @@
     /* Add your styling */
   }
 
-  .top-50px {
+  .top-56px {
     position: relative;
-    top: 50px;
+    top: 56px;
   }
   
   /* Add CSS variables in :root for responsiveness and theming */
@@ -121,7 +121,7 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    margin-right: 10px;
+
   }
   
   .profile-name {
@@ -211,10 +211,9 @@ align-items: center;
 }
 
 .profile-picture {
-width: 48px; /* adjust as needed */
-height: 48px;
+width: 40px; /* adjust as needed */
+height: 40px;
 border-radius: 50%;
-margin-right: 10px;
 }
 
 .profile-name {

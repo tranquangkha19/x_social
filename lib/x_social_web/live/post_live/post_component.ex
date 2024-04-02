@@ -4,7 +4,7 @@ defmodule XSocialWeb.PostLive.PostComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <article class="post border-gray-300 shadow-md">
+    <article class="post border-gray-300 shadow-sm">
       <!-- Post Header with avatar and username -->
       <header class="post-header p-4 flex items-center">
         <a href={"/#{@owner.username}"}>
@@ -25,7 +25,9 @@ defmodule XSocialWeb.PostLive.PostComponent do
             </a>
           </p>
           <a href={"/posts/#{@post.id}"}>
-            <p class="text-gray-500 text-sm"><%= @post.inserted_at %></p>
+            <p class="text-gray-500 text-sm">
+              <%= DateTime.to_string(@post.inserted_at) |> String.slice(0..18) %>
+            </p>
           </a>
         </div>
       </header>
@@ -33,8 +35,9 @@ defmodule XSocialWeb.PostLive.PostComponent do
       <a href={"/posts/#{@post.id}"}>
         <div class="post-content px-4">
           <p><%= @post.body %></p>
-
-          <img src={@post.image_url} alt="Post image" class="mt-2 rounded" />
+          <%= if @post.image_url do %>
+            <img src={@post.image_url} alt="Post image" class="mt-2 rounded" />
+          <% end %>
         </div>
       </a>
       <!-- Post Actions -->

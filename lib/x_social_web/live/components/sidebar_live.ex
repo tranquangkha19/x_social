@@ -18,7 +18,7 @@ defmodule XSocialWeb.SidebarLive do
   def render(%{current_user: current_user} = assigns) do
     ~H"""
     <aside class="sidebar">
-      <div class="followee-info user-profile shadow-md">
+      <div class="followee-info user-profile">
         <a href={"/#{@current_user.username}"}>
           <img
             class="followee-picture"
@@ -27,7 +27,7 @@ defmodule XSocialWeb.SidebarLive do
           />
           <div>
             <strong class="followee-name"><%= @current_user.name %></strong>
-            <p class="followee-username"><%= @current_user.username %></p>
+            <p class="followee-username">@<%= @current_user.username %></p>
           </div>
         </a>
       </div>
