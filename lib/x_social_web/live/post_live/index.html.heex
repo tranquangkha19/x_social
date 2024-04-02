@@ -15,6 +15,7 @@
     action={@live_action}
     post={@post}
     patch={~p"/posts"}
+    current_user={@current_user}
   />
 </.modal>
 
@@ -23,9 +24,9 @@
   <%= for post <- @posts do %>
     <.live_component
       module={XSocialWeb.PostLive.PostComponent}
-      id={post.post.id || :new}
-      post={post.post}
-      owner={post.user}
+      id={post.id || :new}
+      post={post}
+      owner={@owners_map[post.user_id]}
     />
   <% end %>
 </div>

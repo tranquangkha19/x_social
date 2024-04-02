@@ -33,11 +33,8 @@ defmodule XSocialWeb.PostLive.PostComponent do
       <a href={"/posts/#{@post.id}"}>
         <div class="post-content px-4">
           <p><%= @post.body %></p>
-          <img
-            src="https://pbs.twimg.com/card_img/1772068419896217600/ilRk2gPX?format=jpg&name=small"
-            alt="Post image"
-            class="mt-2 rounded"
-          />
+
+          <img src={@post.image_url} alt="Post image" class="mt-2 rounded" />
         </div>
       </a>
       <!-- Post Actions -->

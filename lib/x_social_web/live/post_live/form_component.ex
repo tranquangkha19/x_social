@@ -9,9 +9,7 @@ defmodule XSocialWeb.PostLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage post records in your database.</:subtitle>
       </.header>
-
       <.simple_form
         for={@form}
         id="post-form"
@@ -19,7 +17,8 @@ defmodule XSocialWeb.PostLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:body]} type="textarea" label="Body" />
+        <.input field={@form[:body]} type="textarea" label="Status" />
+        <.input field={@form[:image_url]} type="text" label="Image URL" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Post</.button>
         </:actions>
@@ -49,6 +48,8 @@ defmodule XSocialWeb.PostLive.FormComponent do
   end
 
   def handle_event("save", %{"post" => post_params}, socket) do
+    post_params = Map.put(post_params, "user_id", socket.assigns.current_user.id)
+
     save_post(socket, socket.assigns.action, post_params)
   end
 

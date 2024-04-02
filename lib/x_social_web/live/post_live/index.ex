@@ -7,7 +7,18 @@ defmodule XSocialWeb.PostLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket), do: Timeline.subcribe()
-    {:ok, assign(socket, :posts, Timeline.list_related_posts(socket.assigns.current_user.id))}
+
+    current_user = socket.assigns.current_user
+
+    %{posts: posts, owners_map: owners_map} =
+      Timeline.get_related_posts(socket.assigns.current_user.id)
+
+    owners_map = Map.put(owners_map, current_user.id, current_user)
+
+    {:ok,
+     socket
+     |> assign(:posts, posts)
+     |> assign(owners_map: owners_map)}
   end
 
   @impl true
@@ -34,8 +45,8 @@ defmodule XSocialWeb.PostLive.Index do
   end
 
   @impl true
-  def handle_info({XSocialWeb.PostLive.FormComponent, {:saved, post}}, socket) do
-    {:noreply, stream_insert(socket, :posts, post)}
+  def handle_info({XSocialWeb.PostLive.FormComponent, {:saved, _post}}, socket) do
+    {:noreply, update(socket, :posts, fn posts -> posts end)}
   end
 
   @impl true
@@ -46,11 +57,11 @@ defmodule XSocialWeb.PostLive.Index do
   def handle_info({:post_updated, post}, socket) do
     {:noreply,
      update(socket, :posts, fn posts ->
-       Enum.map(posts, fn %{post: p} = item ->
+       Enum.map(posts, fn p ->
          if p.id == post.id do
-           Map.put(item, :post, post)
+           post
          else
-           item
+           p
          end
        end)
      end)}

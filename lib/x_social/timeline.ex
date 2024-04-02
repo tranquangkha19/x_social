@@ -10,23 +10,32 @@ defmodule XSocial.Timeline do
   alias XSocial.Relation.Follow
   alias XSocial.Auth.User
 
-  def list_related_posts(user_id, page_number \\ 1, page_size \\ 10) do
-    Repo.all(
-      from p in Post,
-        join: f in Follow,
-        on: f.followee_id == p.user_id and f.user_id == ^user_id and f.active == true,
-        join: user in User,
-        on: user.id == p.user_id,
-        order_by: [desc: p.inserted_at],
-        limit: ^page_size,
-        offset: (^page_number - 1) * ^page_size,
-        select: %{
-          post: p,
-          user: user
-        }
-    )
+  def get_related_posts(user_id, page_number \\ 1, page_size \\ 10) do
+    posts =
+      Repo.all(
+        from p in Post,
+          join: f in Follow,
+          on: f.followee_id == p.user_id and f.user_id == ^user_id and f.active == true,
+          order_by: [desc: p.inserted_at],
+          limit: ^page_size,
+          offset: (^page_number - 1) * ^page_size,
+          select: p
+      )
+
+    owner_ids = Enum.map(posts, fn post -> post.user_id end)
+
+    owners_map =
+      Repo.all(
+        from owner in User,
+          where: owner.id in ^owner_ids,
+          select: owner
+      )
+      |> Enum.into(%{}, fn owner -> {owner.id, owner} end)
+
+    %{posts: posts, owners_map: owners_map}
   end
 
+  # XSocial.Timeline.get_related_posts(1)
   @doc """
   Returns the list of posts.
 
@@ -69,6 +78,8 @@ defmodule XSocial.Timeline do
 
   """
   def create_post(attrs \\ %{}) do
+    IO.inspect(attrs, label: "***************************************")
+
     %Post{}
     |> Post.changeset(attrs)
     |> Repo.insert()
