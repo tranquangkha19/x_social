@@ -100,7 +100,12 @@ defmodule XSocialWeb.PostLive.PostComponent do
           <span><%= "200" %></span>
         </button>
         <!-- Repost action -->
-        <button phx-click="repost" phx-target={@myself} class="flex items-center space-x-1">
+        <button
+          class="flex items-center space-x-1"
+          phx-click="show_modal"
+          phx-value-modal={"comment-#{@post.id}"}
+          type="button"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
