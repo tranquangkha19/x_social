@@ -32,11 +32,11 @@ defmodule XSocialWeb.SidebarLive do
         </a>
       </div>
       <ul class="sidebar-menu">
-        <li><a href="/posts">Home</a></li>
-        <li><a href="/notifications">Notifications</a></li>
-        <li><a href="/messages">Messages</a></li>
-        <li><a href={"/#{@current_user.username}"}>Profile</a></li>
-        <li><a href="/posts/new">Post</a></li>
+        <li><a class="rounded-lg" href="/posts">Home</a></li>
+        <li><a class="rounded-lg" href="/notifications">Notifications</a></li>
+        <li><a class="rounded-lg" href="/messages">Messages</a></li>
+        <li><a class="rounded-lg" href={"/#{@current_user.username}"}>Profile</a></li>
+        <li><a class="rounded-lg" href="/posts/new">Post</a></li>
       </ul>
     </aside>
     """

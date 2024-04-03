@@ -19,12 +19,13 @@ defmodule XSocial.Timeline do
           join: f in Follow,
           on:
             f.followee_id == p.user_id and f.user_id == ^user_id and f.active == true and
-              p.type == ^PostType.post(),
+              p.type in [^PostType.post(), ^PostType.repost()],
           order_by: [desc: p.inserted_at],
           limit: ^page_size,
           offset: (^page_number - 1) * ^page_size,
           select: p
       )
+      |> Repo.preload(:original_post)
 
     user_posts = get_lastest_posts(user_id)
 
@@ -38,12 +39,13 @@ defmodule XSocial.Timeline do
   def get_lastest_posts(user_id, page_number \\ 1, page_size \\ 5) do
     Repo.all(
       from post in Post,
-        where: post.user_id == ^user_id and post.type == ^PostType.post(),
+        where: post.user_id == ^user_id and post.type in [^PostType.post(), ^PostType.repost()],
         order_by: [desc: post.inserted_at],
         limit: ^page_size,
         offset: (^page_number - 1) * ^page_size,
         select: post
     )
+    |> Repo.preload(:original_post)
   end
 
   # XSocial.Timeline.get_related_posts(1)
@@ -77,7 +79,9 @@ defmodule XSocial.Timeline do
   def get_post!(id), do: Repo.get!(Post, id)
 
   def get_details_post(post_id) do
-    post = Repo.get!(Post, post_id)
+    post =
+      Repo.get!(Post, post_id)
+      |> Repo.preload(:original_post)
 
     parent_post =
       if post.parent_post_id do

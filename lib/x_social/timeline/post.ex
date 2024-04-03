@@ -10,9 +10,9 @@ defmodule XSocial.Timeline.Post do
     field :likes_count, :integer, default: 0
     field :reposts_count, :integer, default: 0
     field :parent_post_id, :integer
-    field :original_post_id, :integer
     field :type, :string
 
+    belongs_to :original_post, XSocial.Timeline.Post
     belongs_to :user, XSocial.Auth.User
 
     timestamps(type: :utc_datetime)

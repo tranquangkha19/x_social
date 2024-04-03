@@ -1,11 +1,10 @@
-defmodule XSocialWeb.PostLive.PostComponent do
+defmodule XSocialWeb.PostLive.RepostComponent do
   use XSocialWeb, :live_component
 
   @impl true
   def render(assigns) do
     ~H"""
-    <article class="post border-gray-300 shadow border-solid rounded-lg">
-      <!-- Post Header with avatar and username -->
+    <article class="m-4  border-solid rounded-lg  border-gray-400 shadow">
       <header class="post-header p-4 flex items-center">
         <a href={"/#{@owner.username}"}>
           <img
@@ -36,27 +35,15 @@ defmodule XSocialWeb.PostLive.PostComponent do
           </a>
         </div>
       </header>
-      <!-- Post Content -->
       <a href={"/posts/#{@post.id}"}>
-        <div class="post-content px-4">
+        <div class="post-content px-4 pb-4">
           <p><%= @post.body %></p>
           <%= if @post.image_url do %>
-            <img src={@post.image_url} alt="Post image" class="mt-2 rounded-lg" />
+            <img src={@post.image_url} alt="Post image" class="mt-2 rounded" />
           <% end %>
         </div>
       </a>
-      <!-- Repost Component -->
-      <%= if @post.original_post_id && @post.original_post do %>
-        <.live_component
-          module={XSocialWeb.PostLive.RepostComponent}
-          id={"original-post-of-post#{@post.id}"}
-          post={@post.original_post}
-          owner={@owner}
-          parent_post={nil}
-          is_main={false}
-        />
-      <% end %>
-      <!-- Post Actions -->
+      <!-- Actions -->
       <div class="actions-bar p-4 flex justify-between items-center text-gray-500">
         <!-- Like action -->
         <button phx-click="like" phx-target={@myself} class="flex items-center space-x-1">
@@ -117,30 +104,7 @@ defmodule XSocialWeb.PostLive.PostComponent do
           <span><%= @post.reposts_count %></span>
         </button>
       </div>
-      <!-- Main modal -->
-      <%= if @show_modal == "comment-#{@post.id}" do %>
-        <.live_component
-          module={XSocialWeb.PostLive.ModalComponent}
-          id={"modal-of-post#{@post.id}"}
-          post={@post}
-          owner={@owner}
-          parent_post={@parent_post}
-          is_main={false}
-        />
-      <% end %>
     </article>
     """
-  end
-
-  @impl true
-  def handle_event("like", _, socket) do
-    XSocial.Timeline.inc_likes(socket.assigns.post)
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("repost", _, socket) do
-    XSocial.Timeline.inc_reposts(socket.assigns.post)
-    {:noreply, socket}
   end
 end
