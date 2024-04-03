@@ -17,8 +17,9 @@ defmodule XSocialWeb.PostLive.Index do
 
     {:ok,
      socket
-     |> assign(:posts, posts)
-     |> assign(owners_map: owners_map)}
+     |> assign(posts: posts)
+     |> assign(owners_map: owners_map)
+     |> assign(show_modal: nil)}
   end
 
   @impl true
@@ -74,5 +75,18 @@ defmodule XSocialWeb.PostLive.Index do
     {:ok, _} = Timeline.delete_post(post)
 
     {:noreply, stream_delete(socket, :posts, post)}
+  end
+
+  @impl true
+  def handle_event("show_modal", %{"modal" => modal}, socket) do
+    {:noreply,
+     socket
+     |> assign(show_modal: modal)}
+  end
+
+  @impl true
+  def handle_event("reply", data, socket) do
+    XSocial.Timeline.reply_post(data, socket.assigns.current_user)
+    {:noreply, socket |> assign(:show_modal, nil)}
   end
 end

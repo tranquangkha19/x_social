@@ -179,6 +179,20 @@ defmodule XSocial.Timeline do
     broadcast({:ok, post}, :post_updated)
   end
 
+  def reply_post(reply, user) do
+    attrs = %{
+      "body" => reply["reply"],
+      "username" => user.username,
+      "user_id" => user.id,
+      "parent_post_id" => reply["post_id"],
+      "type" => "reply"
+    }
+
+    %Post{}
+    |> Post.changeset(attrs)
+    |> Repo.insert()
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking post changes.
 

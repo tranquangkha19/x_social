@@ -16,6 +16,7 @@
   owner={@user}
   parent_post={@parent_post}
   is_main={true}
+  show_modal={@show_modal}
 />
 
 
@@ -29,6 +30,7 @@
       owner={@owners_map[post.user_id]}
       parent_post={nil}
       is_main={false}
+      show_modal={@show_modal}
     />
   <% end %>
 </div>
