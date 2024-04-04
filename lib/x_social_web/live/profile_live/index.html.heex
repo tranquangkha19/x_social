@@ -35,3 +35,15 @@
     current_user_following_map={@current_user_following_map}
     />
 <% end %>
+
+
+<%= if @live_action == :others do %>
+    <.live_component 
+    module={XSocialWeb.FollowingComponent} 
+    id={@user.id}
+    user={@user}
+    following={@others}
+    active_tab={:others}
+    current_user_following_map={@current_user_following_map}
+    />
+<% end %>

@@ -62,6 +62,16 @@ defmodule XSocial.Relation do
     )
   end
 
+  def get_all_others(user_id) do
+    following_ids = get_all_following_ids(user_id)
+
+    Repo.all(
+      from user in User,
+        where: user.id not in ^following_ids,
+        select: user
+    )
+  end
+
   def get_all_following_ids(user_id) do
     Repo.all(
       from follow in Follow,

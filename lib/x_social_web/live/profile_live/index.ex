@@ -76,6 +76,14 @@ defmodule XSocialWeb.ProfileLive.Index do
     |> assign(:followers, followers)
   end
 
+  defp apply_action(socket, :others, _params) do
+    followers = Relation.get_all_others(socket.assigns.user.id)
+
+    socket
+    |> assign_current_user_info()
+    |> assign(:others, followers)
+  end
+
   defp assign_current_user_info(socket) do
     socket
     |> assign(:current_user, socket.assigns.current_user)

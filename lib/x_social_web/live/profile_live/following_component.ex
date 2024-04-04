@@ -15,6 +15,9 @@ defmodule XSocialWeb.FollowingComponent do
         </div>
         <nav class="profile-navigation">
           <ul>
+            <li class={active_class(@active_tab, :others)}>
+              <a href={"/#{@user.username}/others"} phx-click="show_others">Others</a>
+            </li>
             <li class={active_class(@active_tab, :followers)}>
               <a href={"/#{@user.username}/followers"} phx-click="show_followers">Followers</a>
             </li>

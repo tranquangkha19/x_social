@@ -35,6 +35,7 @@ defmodule XSocialWeb.Router do
       live "/:username", ProfileLive.Index, :index
       live "/:username/following", ProfileLive.Index, :following
       live "/:username/followers", ProfileLive.Index, :followers
+      live "/:username/others", ProfileLive.Index, :others
     end
   end
 

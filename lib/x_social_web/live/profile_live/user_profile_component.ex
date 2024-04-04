@@ -19,16 +19,6 @@ defmodule XSocialWeb.UserProfileComponent do
         <p style="color: #777; margin-top: 1rem;"><%= @bio %></p>
       </div>
       <div style="background: #f9f9f9; padding: 1rem; border-top: 1px solid #eee;">
-        <div style="display: inline-block; margin-right: 2rem;">
-          <a
-            href={"/#{@username}/following"}
-            rel="noopener"
-            style="color: #0066cc; text-decoration: none;"
-          >
-            <strong><%= @following_count %></strong>
-            <span style="color: #555;">Following</span>
-          </a>
-        </div>
         <div style="display: inline-block;">
           <a
             href={"/#{@username}/followers"}
@@ -37,6 +27,16 @@ defmodule XSocialWeb.UserProfileComponent do
           >
             <strong><%= @followers_count %></strong>
             <span style="color: #555;">Followers</span>
+          </a>
+        </div>
+        <div style="display: inline-block; margin-right: 2rem;">
+          <a
+            href={"/#{@username}/following"}
+            rel="noopener"
+            style="color: #0066cc; text-decoration: none;"
+          >
+            <strong><%= @following_count %></strong>
+            <span style="color: #555;">Following</span>
           </a>
         </div>
       </div>
