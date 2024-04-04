@@ -3,6 +3,9 @@ defmodule XSocialWeb.PostLive.ModalComponent do
 
   @impl true
   def render(assigns) do
+    # component params: post, owner, is_main, parent_post
+    # post_show_modal, owner_show_modal
+
     ~H"""
     <div
       id={"crud-modal-#{@post.id}"}
@@ -14,7 +17,8 @@ defmodule XSocialWeb.PostLive.ModalComponent do
         class="fixed top-0 left-0 w-full h-full opacity-10 bg-slate-950"
         type="button"
         phx-click="show_modal"
-        phx-value-modal=""
+        phx-value-post_id={-1}
+        phx-value-modal_type=""
       >
       </div>
       <div class="flex justify-center items-center h-full">
@@ -63,7 +67,7 @@ defmodule XSocialWeb.PostLive.ModalComponent do
                 <% end %>
               </div>
             </a>
-            <form class="p-4 md:p-4" phx-submit="reply">
+            <form class="p-4 md:p-4" phx-submit={@modal_type}>
               <div class="grid gap-4 grid-cols-2">
                 <div class="col-span-2">
                   <textarea
@@ -71,8 +75,8 @@ defmodule XSocialWeb.PostLive.ModalComponent do
                     rows="1"
                     type="reply"
                     name="reply"
-                    class="block p-2.5 w-full text-sm text-gray-900  rounded-lg border  focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Reply here"
+                    class="block p-2.5 w-full text-sm text-gray-900  rounded-lg border focus:ring-blue-500 focus:border-blue-500"
+                    placeholder=""
                   ></textarea>
                 </div>
                 <div class="col-span-2">
@@ -85,7 +89,11 @@ defmodule XSocialWeb.PostLive.ModalComponent do
                     type="submit"
                     class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
-                    Post
+                    <%= if @modal_type == "reply" do %>
+                      Reply
+                    <% else %>
+                      Repost
+                    <% end %>
                   </button>
                 </div>
               </div>

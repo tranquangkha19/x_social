@@ -20,6 +20,20 @@
 </.modal>
 
 
+<%= if @show_modal do %>
+  <.live_component
+    module={XSocialWeb.PostLive.ModalComponent}
+    id="#show-modal-{@post_show_modal.id}"
+    post={@post_show_modal}
+    owner={@owner_show_modal}
+    parent_post={nil}
+    is_main={false}
+    show_modal={@show_modal}
+    modal_type={@modal_type}
+  />
+<% end %>
+
+
 <div class="post-container">
   <%= for post <- @posts do %>
     <.live_component

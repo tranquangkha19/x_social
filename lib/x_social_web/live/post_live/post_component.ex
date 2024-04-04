@@ -80,7 +80,8 @@ defmodule XSocialWeb.PostLive.PostComponent do
         <button
           class="flex items-center space-x-1"
           phx-click="show_modal"
-          phx-value-modal={"comment-#{@post.id}"}
+          phx-value-post_id={@post.id}
+          phx-value-modal_type="reply"
           type="button"
         >
           <svg
@@ -103,7 +104,8 @@ defmodule XSocialWeb.PostLive.PostComponent do
         <button
           class="flex items-center space-x-1"
           phx-click="show_modal"
-          phx-value-modal={"comment-#{@post.id}"}
+          phx-value-post_id={@post.id}
+          phx-value-modal_type="repost"
           type="button"
         >
           <svg
@@ -122,17 +124,6 @@ defmodule XSocialWeb.PostLive.PostComponent do
           <span><%= @post.reposts_count %></span>
         </button>
       </div>
-      <!-- Main modal -->
-      <%= if @show_modal == "comment-#{@post.id}" do %>
-        <.live_component
-          module={XSocialWeb.PostLive.ModalComponent}
-          id={"modal-of-post#{@post.id}"}
-          post={@post}
-          owner={@owner}
-          parent_post={@parent_post}
-          is_main={false}
-        />
-      <% end %>
     </article>
     """
   end

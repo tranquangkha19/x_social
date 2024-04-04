@@ -89,11 +89,14 @@ defmodule XSocial.Timeline do
       else
         nil
       end
+      |> Repo.preload(:original_post)
 
     replies =
       Repo.all(
         from p in Post, where: p.parent_post_id == ^post_id, order_by: [asc: p.inserted_at]
-      ) || []
+      ) ||
+        []
+        |> Repo.preload(:original_post)
 
     posts =
       if parent_post do
@@ -189,7 +192,21 @@ defmodule XSocial.Timeline do
       "username" => user.username,
       "user_id" => user.id,
       "parent_post_id" => reply["post_id"],
-      "type" => "reply"
+      "type" => XSocial.Timeline.PostType.reply()
+    }
+
+    %Post{}
+    |> Post.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def repost_post(reply, user) do
+    attrs = %{
+      "body" => reply["reply"],
+      "username" => user.username,
+      "user_id" => user.id,
+      "original_post_id" => reply["post_id"],
+      "type" => XSocial.Timeline.PostType.repost()
     }
 
     %Post{}
