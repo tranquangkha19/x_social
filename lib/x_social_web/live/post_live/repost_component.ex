@@ -6,18 +6,18 @@ defmodule XSocialWeb.PostLive.RepostComponent do
     ~H"""
     <article class="m-4  border-solid rounded-lg  border-gray-400 shadow">
       <header class="post-header p-4 flex items-center">
-        <a href={"/#{@owner.username}"}>
+        <a href={"/#{@post.user.username}"}>
           <img
             class="profile-picture"
-            src={@owner.profile_picture_url}
-            alt={@owner.username}
+            src={@post.user.profile_picture_url}
+            alt={@post.user.username}
             class="rounded-full"
           />
         </a>
         <div class="ml-2">
           <p>
-            <a href={"/#{@owner.username}"}>
-              <span class="font-bold">@<%= @owner.username %></span>
+            <a href={"/#{@post.user.username}"}>
+              <span class="font-bold">@<%= @post.user.username %></span>
             </a>
 
             <%= if @is_main == true && @post.parent_post_id && @parent_post  do %>

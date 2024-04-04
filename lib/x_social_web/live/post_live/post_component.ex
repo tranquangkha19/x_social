@@ -51,7 +51,7 @@ defmodule XSocialWeb.PostLive.PostComponent do
           module={XSocialWeb.PostLive.RepostComponent}
           id={"original-post-of-post#{@post.id}"}
           post={@post.original_post}
-          owner={@owner}
+          owner={@owners_map[@post.original_post.user_id]}
           parent_post={nil}
           is_main={false}
         />

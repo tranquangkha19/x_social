@@ -26,7 +26,7 @@ defmodule XSocial.Timeline do
           offset: (^page_number - 1) * ^page_size,
           select: p
       )
-      |> Repo.preload(:original_post)
+      |> Repo.preload([:user, original_post: [:user]])
 
     user_posts = get_lastest_posts(user_id)
 
@@ -46,7 +46,7 @@ defmodule XSocial.Timeline do
         offset: (^page_number - 1) * ^page_size,
         select: post
     )
-    |> Repo.preload(:original_post)
+    |> Repo.preload([:user, original_post: [:user]])
   end
 
   # XSocial.Timeline.get_related_posts(1)
@@ -82,7 +82,7 @@ defmodule XSocial.Timeline do
   def get_details_post(post_id) do
     post =
       Repo.get!(Post, post_id)
-      |> Repo.preload(:original_post)
+      |> Repo.preload([:user, original_post: [:user]])
 
     parent_post =
       if post.parent_post_id do
@@ -90,14 +90,14 @@ defmodule XSocial.Timeline do
       else
         nil
       end
-      |> Repo.preload(:original_post)
+      |> Repo.preload([:user, original_post: [:user]])
 
     replies =
       Repo.all(
         from p in Post, where: p.parent_post_id == ^post_id, order_by: [asc: p.inserted_at]
       ) ||
         []
-        |> Repo.preload(:original_post)
+        |> Repo.preload([:user, original_post: [:user]])
 
     posts =
       if parent_post do
@@ -206,7 +206,7 @@ defmodule XSocial.Timeline do
       from(post in Post, where: post.id == ^id, select: post)
       |> Repo.update_all(inc: [likes_count: 1])
 
-    broadcast({:ok, post |> Repo.preload(:original_post)}, :post_updated)
+    broadcast({:ok, post |> Repo.preload([:user, original_post: [:user]])}, :post_updated)
   end
 
   def dec_likes(%Post{id: id}) do
@@ -214,7 +214,7 @@ defmodule XSocial.Timeline do
       from(post in Post, where: post.id == ^id, select: post)
       |> Repo.update_all(inc: [likes_count: -1])
 
-    broadcast({:ok, post |> Repo.preload(:original_post)}, :post_updated)
+    broadcast({:ok, post |> Repo.preload([:user, original_post: [:user]])}, :post_updated)
   end
 
   def inc_reposts(%Post{id: id}) do
@@ -222,7 +222,7 @@ defmodule XSocial.Timeline do
       from(post in Post, where: post.id == ^id, select: post)
       |> Repo.update_all(inc: [reposts_count: 1])
 
-    broadcast({:ok, post |> Repo.preload(:original_post)}, :post_updated)
+    broadcast({:ok, post |> Repo.preload([:user, original_post: [:user]])}, :post_updated)
   end
 
   def reply_post(reply, user) do
