@@ -58,12 +58,30 @@ defmodule XSocialWeb.ProfileLive.Index do
 
   def handle_event("follow", %{"followee-id" => followee_id}, socket) do
     Relation.add_follow(socket.assigns.current_user.id, followee_id)
-    {:noreply, assign_current_user_info(socket)}
+
+    {:noreply,
+     socket
+     |> assign_current_user_info()
+     |> update(
+       :current_user_following_map,
+       fn current_user_follow_map ->
+         Map.put(current_user_follow_map, String.to_integer(followee_id), true)
+       end
+     )}
   end
 
   def handle_event("unfollow", %{"followee-id" => followee_id}, socket) do
     Relation.unfollow(socket.assigns.current_user.id, followee_id)
-    {:noreply, assign_current_user_info(socket)}
+
+    {:noreply,
+     socket
+     |> assign_current_user_info()
+     |> update(
+       :current_user_following_map,
+       fn current_user_follow_map ->
+         Map.put(current_user_follow_map, String.to_integer(followee_id), false)
+       end
+     )}
   end
 
   defp apply_action(socket, :following, _params) do
