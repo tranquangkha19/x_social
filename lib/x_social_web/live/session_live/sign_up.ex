@@ -15,19 +15,16 @@ defmodule XSocialWeb.SessionLive.SignUp do
             </h1>
             <form class="space-y-4 md:space-y-6" phx-submit="register">
               <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">
-                  Your email
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 ">
+                  Username
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
+                  type="username"
+                  name="username"
+                  id="username"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
                   required=""
                 />
-                <%= for {msg, _} <- Keyword.get(@changeset.errors, :email, []),
-                        do: "<div class=\"error-message\">#{msg}</div>" %>
               </div>
               <div>
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">
@@ -41,15 +38,13 @@ defmodule XSocialWeb.SessionLive.SignUp do
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
                 />
-                <%= for {msg, _} <- Keyword.get(@changeset.errors, :password, []),
-                        do: "<div class=\"error-message\">#{msg}</div>" %>
               </div>
               <div>
                 <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 ">
                   Confirm password
                 </label>
                 <input
-                  type="confirm-password"
+                  type="password"
                   name="confirm-password"
                   id="confirm-password"
                   placeholder="••••••••"
@@ -86,14 +81,23 @@ defmodule XSocialWeb.SessionLive.SignUp do
     {:ok, assign(socket, changeset: changeset)}
   end
 
-  def handle_event("register", %{"email" => email, "password" => password}, socket) do
-    case XSocial.Auth.create_user(%{email: email, username: email, password: password}) do
-      {:ok, _user} ->
-        {:noreply,
-         socket |> put_flash(:info, "Registered successfully!") |> redirect(to: "/login")}
+  def handle_event(
+        "register",
+        %{"username" => username, "password" => password, "confirm-password" => confirm_password},
+        socket
+      ) do
+    with {:match_password, true} <- {:match_password, password == confirm_password},
+         {:ok, _user} <- XSocial.Auth.create_user(%{username: username, password: password}) do
+      {:noreply, socket |> put_flash(:info, "Registered successfully!") |> redirect(to: "/login")}
+    else
+      {:match_password, false} ->
+        {:noreply, socket |> put_flash(:error, "Password and Confirm password are not match!")}
 
-      {:error, changeset} ->
-        {:noreply, assign(socket, changeset: changeset)}
+      {:error, %{errors: _}} ->
+        {:noreply, socket |> put_flash(:error, "Password should be at least 6 characters!")}
+
+      {:error, msg} ->
+        {:noreply, socket |> put_flash(:error, msg)}
     end
   end
 end

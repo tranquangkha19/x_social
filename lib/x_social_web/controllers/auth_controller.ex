@@ -2,8 +2,8 @@ defmodule XSocialWeb.AuthController do
   use XSocialWeb, :controller
   @login_path "/login"
 
-  def auth(conn, %{"email" => email, "password" => password}) do
-    case XSocial.Auth.authenticate_user(email, password) do
+  def auth(conn, %{"username" => username, "password" => password}) do
+    case XSocial.Auth.authenticate_user(username, password) do
       {:ok, user} ->
         conn
         |> put_session(:user_id, user.id)
@@ -11,6 +11,7 @@ defmodule XSocialWeb.AuthController do
 
       _ ->
         conn
+        |> put_flash(:error, "Login failed. Please check your username and password!")
         |> redirect(to: @login_path)
     end
   end
