@@ -50,3 +50,34 @@
     current_user={@current_user}
     />
 <% end %>
+
+<%= if @show_modal do %>
+  <.live_component
+    module={XSocialWeb.PostLive.ModalComponent}
+    id="#show-modal-{@post_show_modal.id}"
+    post={@post_show_modal}
+    owner={@owner_show_modal}
+    parent_post={nil}
+    is_main={false}
+    show_modal={@show_modal}
+    modal_type={@modal_type}
+  />
+<% end %>
+
+<%= if @live_action == :index do %>
+    <div class="post-container">
+        <%= for post <- @posts do %>
+        <.live_component
+            module={XSocialWeb.PostLive.PostComponent}
+            id={post.id || :new}
+            post={post}
+            owner={@owners_map[post.user_id]}
+            parent_post={nil}
+            is_main={false}
+            show_modal={@show_modal}
+            current_user={@current_user}
+            owners_map={@owners_map}
+        />
+        <% end %>
+    </div>
+  <% end %>

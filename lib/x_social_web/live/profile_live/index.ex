@@ -1,8 +1,10 @@
 defmodule XSocialWeb.ProfileLive.Index do
+  alias XSocial.Timeline
   use XSocialWeb, :live_view
   # Assuming you have an Auth context
   alias XSocial.Auth
   alias XSocial.Relation
+  alias XSocial.Timeline
 
   @impl true
   def mount(%{"username" => username}, _session, socket) do
@@ -13,13 +15,19 @@ defmodule XSocialWeb.ProfileLive.Index do
       user ->
         {followers_count, following_count} = Relation.count_followers_and_followees(user.id)
 
-        socket =
-          socket
-          |> assign(:user, user)
-          |> assign(followers_count: followers_count)
-          |> assign(following_count: following_count)
+        posts = Timeline.get_lastest_posts(user.id)
 
-        {:ok, socket}
+        owners_map = %{user.id => user}
+
+        {:ok,
+         socket
+         |> assign(:user, user)
+         |> assign(followers_count: followers_count)
+         |> assign(following_count: following_count)
+         |> assign(posts: posts)
+         |> assign(owners_map: owners_map)
+         |> assign(show_modal: nil)
+         |> assign(modal_type: nil)}
     end
   end
 

@@ -7,11 +7,13 @@ defmodule XSocialWeb.FollowingComponent do
     <div>
       <header class="profile-header shadow-sm">
         <div class="profile-info">
-          <img class="profile-picture mr-2" src={@user.profile_picture_url} alt={@user.name} />
-          <div>
-            <h1 class="profile-name"><%= @user.name %></h1>
-            <p class="profile-username"><%= @user.username %></p>
-          </div>
+          <a href={"/#{@user.username}"}>
+            <img class="profile-picture mr-2" src={@user.profile_picture_url} alt={@user.name} />
+            <div>
+              <h1 class="profile-name"><%= @user.name %></h1>
+              <p class="profile-username"><%= @user.username %></p>
+            </div>
+          </a>
         </div>
         <nav class="profile-navigation">
           <ul>
