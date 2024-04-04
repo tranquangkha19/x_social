@@ -67,7 +67,7 @@ defmodule XSocial.Relation do
 
     Repo.all(
       from user in User,
-        where: user.id not in ^following_ids,
+        where: user.id != ^user_id and user.id not in ^following_ids,
         select: user
     )
   end
