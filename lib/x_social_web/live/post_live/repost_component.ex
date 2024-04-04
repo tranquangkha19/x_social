@@ -46,7 +46,7 @@ defmodule XSocialWeb.PostLive.RepostComponent do
       <!-- Actions -->
       <div class="actions-bar p-4 flex justify-between items-center text-gray-500">
         <!-- Like action -->
-        <button phx-click="like" phx-target={@myself} class="flex items-center space-x-1">
+        <div class="flex items-center space-x-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -62,14 +62,9 @@ defmodule XSocialWeb.PostLive.RepostComponent do
             </path>
           </svg>
           <span><%= @post.likes_count %></span>
-        </button>
+        </div>
         <!-- Comment action -->
-        <button
-          class="flex items-center space-x-1"
-          phx-click="show_modal"
-          phx-value-modal={"comment-#{@post.id}"}
-          type="button"
-        >
+        <div class="flex items-center space-x-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -85,9 +80,9 @@ defmodule XSocialWeb.PostLive.RepostComponent do
             </path>
           </svg>
           <span><%= "200" %></span>
-        </button>
+        </div>
         <!-- Repost action -->
-        <button phx-click="repost" phx-target={@myself} class="flex items-center space-x-1">
+        <div class="flex items-center space-x-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -102,7 +97,7 @@ defmodule XSocialWeb.PostLive.RepostComponent do
             <path d="M17 2.1l4 4-4 4" /><path d="M3 12.2v-2a4 4 0 0 1 4-4h12.8M7 21.9l-4-4 4-4" /><path d="M21 11.8v2a4 4 0 0 1-4 4H4.2" />
           </svg>
           <span><%= @post.reposts_count %></span>
-        </button>
+        </div>
       </div>
     </article>
     """
