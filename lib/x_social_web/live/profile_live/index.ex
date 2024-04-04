@@ -46,6 +46,12 @@ defmodule XSocialWeb.ProfileLive.Index do
     {:noreply, socket}
   end
 
+  @impl true
+  def handle_event("show_others", _params, socket) do
+    # Logic to handle showing following
+    {:noreply, socket}
+  end
+
   defp apply_action(socket, :index, _params) do
     socket
   end
