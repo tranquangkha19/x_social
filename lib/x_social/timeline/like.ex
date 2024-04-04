@@ -4,8 +4,9 @@ defmodule XSocial.Timeline.Like do
 
   @schema_prefix :timeline
   schema "likes" do
-    field :username, :string
+    field :user_name, :string
     field :liked_at, :naive_datetime
+    field :active, :boolean
     belongs_to :user, XSocial.Auth.User
     belongs_to :post, XSocial.Timeline.Post
 

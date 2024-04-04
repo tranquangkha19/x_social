@@ -130,7 +130,7 @@ defmodule XSocialWeb.PostLive.PostComponent do
 
   @impl true
   def handle_event("like", _, socket) do
-    XSocial.Timeline.inc_likes(socket.assigns.post)
+    XSocial.Timeline.like_post(socket.assigns.post, socket.assigns.current_user)
     {:noreply, socket}
   end
 

@@ -5,6 +5,8 @@ defmodule XSocialWeb.PostLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Timeline.subcribe()
+
     {:ok, socket |> assign(:show_modal, nil)}
   end
 
@@ -81,6 +83,26 @@ defmodule XSocialWeb.PostLive.Show do
          socket
          |> assign(:show_modal, nil)
          |> assign(modal_type: nil)}
+    end
+  end
+
+  @impl true
+  def handle_info({:post_updated, post}, socket) do
+    if post.id == socket.assigns.post.id do
+      {:noreply, assign(socket, :post, post)}
+    else
+      socket =
+        update(socket, :replies, fn replies ->
+          Enum.map(replies, fn reply ->
+            if reply.id == post.id do
+              post
+            else
+              reply
+            end
+          end)
+        end)
+
+      {:noreply, socket}
     end
   end
 
