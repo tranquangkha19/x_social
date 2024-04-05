@@ -244,18 +244,21 @@ defmodule XSocial.Timeline do
       "type" => XSocial.Timeline.PostType.reply()
     }
 
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(
-      :repost,
-      Post.changeset(%Post{}, attrs)
-    )
-    |> Ecto.Multi.run(
-      :inc_replies,
-      fn _repo, _changes ->
-        inc_replies(post_id)
-      end
-    )
-    |> Repo.transaction()
+    with {:ok, %{reply: reply}} <-
+           Ecto.Multi.new()
+           |> Ecto.Multi.insert(
+             :reply,
+             Post.changeset(%Post{}, attrs)
+           )
+           |> Ecto.Multi.run(
+             :inc_replies,
+             fn _repo, _changes ->
+               inc_replies(post_id)
+             end
+           )
+           |> Repo.transaction() do
+      {:ok, reply}
+    end
   end
 
   def repost_post(reply, user) do
@@ -269,18 +272,21 @@ defmodule XSocial.Timeline do
       "type" => XSocial.Timeline.PostType.repost()
     }
 
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(
-      :repost,
-      Post.changeset(%Post{}, attrs)
-    )
-    |> Ecto.Multi.run(
-      :inc_reposts,
-      fn _repo, _changes ->
-        inc_reposts(post_id)
-      end
-    )
-    |> Repo.transaction()
+    with {:ok, %{repost: repost}} <-
+           Ecto.Multi.new()
+           |> Ecto.Multi.insert(
+             :repost,
+             Post.changeset(%Post{}, attrs)
+           )
+           |> Ecto.Multi.run(
+             :inc_reposts,
+             fn _repo, _changes ->
+               inc_reposts(post_id)
+             end
+           )
+           |> Repo.transaction() do
+      {:ok, repost}
+    end
   end
 
   @doc """
