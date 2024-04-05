@@ -9,6 +9,7 @@ defmodule XSocial.Timeline.Post do
     field :username, :string, default: "tranquangkha"
     field :likes_count, :integer, default: 0
     field :reposts_count, :integer, default: 0
+    field :replies_count, :integer, default: 0
     field :parent_post_id, :integer
     field :type, :string
 

@@ -225,7 +225,17 @@ defmodule XSocial.Timeline do
     broadcast({:ok, post |> Repo.preload([:user, original_post: [:user]])}, :post_updated)
   end
 
+  def inc_replies(post_id) do
+    {1, [post]} =
+      from(post in Post, where: post.id == ^post_id, select: post)
+      |> Repo.update_all(inc: [replies_count: 1])
+
+    broadcast({:ok, post |> Repo.preload([:user, original_post: [:user]])}, :post_updated)
+  end
+
   def reply_post(reply, user) do
+    post_id = reply["post_id"]
+
     attrs = %{
       "body" => reply["reply"],
       "username" => user.username,
@@ -234,9 +244,18 @@ defmodule XSocial.Timeline do
       "type" => XSocial.Timeline.PostType.reply()
     }
 
-    %Post{}
-    |> Post.changeset(attrs)
-    |> Repo.insert()
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(
+      :repost,
+      Post.changeset(%Post{}, attrs)
+    )
+    |> Ecto.Multi.run(
+      :inc_replies,
+      fn _repo, _changes ->
+        inc_replies(post_id)
+      end
+    )
+    |> Repo.transaction()
   end
 
   def repost_post(reply, user) do
@@ -256,7 +275,7 @@ defmodule XSocial.Timeline do
       Post.changeset(%Post{}, attrs)
     )
     |> Ecto.Multi.run(
-      :inc_repost,
+      :inc_reposts,
       fn _repo, _changes ->
         inc_reposts(post_id)
       end

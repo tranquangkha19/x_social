@@ -8,6 +8,8 @@ defmodule XSocialWeb.ProfileLive.Index do
 
   @impl true
   def mount(%{"username" => username}, _session, socket) do
+    if connected?(socket), do: Timeline.subcribe()
+
     case Auth.get_user_by(%{username: username}) do
       nil ->
         {:halt, Phoenix.LiveView.redirect(socket, to: "/posts")}
