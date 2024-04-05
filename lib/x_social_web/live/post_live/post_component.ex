@@ -136,7 +136,7 @@ defmodule XSocialWeb.PostLive.PostComponent do
 
   @impl true
   def handle_event("repost", _, socket) do
-    XSocial.Timeline.inc_reposts(socket.assigns.post)
+    XSocial.Timeline.inc_reposts(socket.assigns.post.id)
     {:noreply, socket}
   end
 end
