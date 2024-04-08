@@ -94,6 +94,71 @@ defmodule XSocialWeb.ProfileLive.Index do
      )}
   end
 
+  @impl true
+  def handle_event("show_modal", %{"post_id" => post_id, "modal_type" => modal_type}, socket) do
+    with post_id when post_id > 0 <- String.to_integer(post_id) do
+      post_show_modal = socket.assigns.posts |> Enum.find(fn p -> p.id == post_id end)
+      owner_show_modal = socket.assigns.owners_map[post_show_modal.user_id]
+
+      {:noreply,
+       socket
+       |> assign(show_modal: post_id)
+       |> assign(modal_type: modal_type)
+       |> assign(post_show_modal: post_show_modal)
+       |> assign(owner_show_modal: owner_show_modal)}
+    else
+      _ ->
+        {:noreply,
+         socket
+         |> assign(show_modal: nil)
+         |> assign(modal_type: nil)}
+    end
+  end
+
+  @impl true
+  def handle_event("reply", data, socket) do
+    XSocial.Timeline.reply_post(data, socket.assigns.current_user)
+
+    {:noreply,
+     socket
+     |> assign(:show_modal, nil)
+     |> assign(modal_type: nil)}
+  end
+
+  @impl true
+  def handle_event("repost", data, socket) do
+    socket =
+      with {:ok, repost} <-
+             XSocial.Timeline.repost_post(data, socket.assigns.current_user) do
+        IO.inspect(repost, label: "123!!!!!!!!!!!")
+
+        update(socket, :posts, fn posts ->
+          [repost | posts]
+        end)
+      else
+        _ ->
+          socket
+      end
+
+    {:noreply,
+     socket
+     |> assign(:show_modal, nil)
+     |> assign(modal_type: nil)}
+  end
+
+  def handle_info({:post_updated, post}, socket) do
+    {:noreply,
+     update(socket, :posts, fn posts ->
+       Enum.map(posts, fn p ->
+         if p.id == post.id do
+           post
+         else
+           p
+         end
+       end)
+     end)}
+  end
+
   defp apply_action(socket, :following, _params) do
     following = Relation.get_all_following(socket.assigns.user.id)
 

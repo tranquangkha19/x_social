@@ -285,7 +285,7 @@ defmodule XSocial.Timeline do
              end
            )
            |> Repo.transaction() do
-      {:ok, repost}
+      {:ok, repost |> Repo.preload([:user, original_post: [:user]])}
     end
   end
 
