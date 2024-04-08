@@ -32,8 +32,8 @@ defmodule XSocialWeb.Router do
       live "/posts/:id", PostLive.Show, :show
       live "/posts/:id/show/edit", PostLive.Show, :edit
 
-      live "/:notifications", NotificationLive.Index, :index
-      live "/:messages", MessageLive.Index, :others
+      live "/notifications", NotificationLive.Index, :index
+      live "/messages", MessageLive.Index, :others
 
       # must put these routes the final of routes
       live "/:username", ProfileLive.Index, :index
