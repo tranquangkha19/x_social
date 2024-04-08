@@ -4,9 +4,11 @@ defmodule XSocial.Relation do
   """
 
   import Ecto.Query, warn: false
+  alias Ecto.Query.Builder.Preload
   alias XSocial.Repo
 
   alias XSocial.Relation.Follow
+  alias XSocial.Relation.Notification
   alias XSocial.Auth.User
 
   # get all followees of a user
@@ -113,5 +115,10 @@ defmodule XSocial.Relation do
       ),
       set: [active: false]
     )
+  end
+
+  def get_notifications(user_id) do
+    Repo.all(from noti in Notification, where: noti.user_id == ^user_id, select: noti)
+    |> Repo.preload([:user, :actioner])
   end
 end
