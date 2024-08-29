@@ -16,6 +16,6 @@ defmodule XSocialWeb.NotificationLive.Index do
   end
 
   defp apply_action(socket, :index, _params) do
-    socket
+    {:noreply, socket}
   end
 end

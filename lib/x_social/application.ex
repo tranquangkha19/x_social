@@ -12,6 +12,7 @@ defmodule XSocial.Application do
       XSocial.Repo,
       {DNSCluster, query: Application.get_env(:x_social, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: XSocial.PubSub},
+      XSocialWeb.Presence,
       # Start the Finch HTTP client for sending emails
       {Finch, name: XSocial.Finch},
       # Start a worker by calling: XSocial.Worker.start_link(arg)

@@ -1,0 +1,1 @@
+cp -pRv assets/css/ priv/static/assets/css

@@ -3,6 +3,8 @@ defmodule XSocialWeb.AuthController do
   @login_path "/login"
 
   def auth(conn, %{"username" => username, "password" => password}) do
+    IO.inspect(username, label: "username!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
     case XSocial.Auth.authenticate_user(username, password) do
       {:ok, user} ->
         conn

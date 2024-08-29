@@ -19,7 +19,7 @@ defmodule XSocialWeb.HeaderLive do
     ~H"""
     <header class="header-bar fixed top-0 left-0 right-0">
       <nav class="nav-bar">
-        <div class="logo">XSocial</div>
+        <div class="logo"></div>
         <div class="search-bar">
           <input type="text" placeholder="Search" />
         </div>
